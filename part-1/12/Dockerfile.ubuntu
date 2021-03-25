@@ -16,6 +16,8 @@ RUN apt update && apt install -y git curl bash && \
 
 WORKDIR ./$PROJECT
 
-RUN npm install && npm install -g serve
+RUN npm run build && \
+    npm install && \
+    npm install -g serve
 
 CMD serve -s -l 5000 build
