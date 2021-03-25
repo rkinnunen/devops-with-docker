@@ -1,0 +1,14 @@
+➜  9 git:(master) ✗ touch text.log
+➜  9 git:(master) ✗ docker run -v $(pwd)/text.log:/usr/src/app/text.log devopsdockeruh/simple-web-service:alpine
+Starting log output
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+Wrote text to /usr/src/app/text.log
+^C%
+➜  9 git:(master) ✗ ls
+Dockerfile text.log
+➜  9 git:(master) ✗ cat text.log
+2021-03-25 10:50:27 +0000 UTC
+2021-03-25 10:50:29 +0000 UTC
+2021-03-25 10:50:31 +0000 UTC
+➜  9 git:(master) ✗
