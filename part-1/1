@@ -1,0 +1,5 @@
+➜  part-1 git:(master) ✗ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+1379b3c2ba20   nginx     "/docker-entrypoint.…"   32 seconds ago   Exited (0) 16 seconds ago             boring_easley
+bc16619a1d76   nginx     "/docker-entrypoint.…"   34 seconds ago   Exited (0) 16 seconds ago             relaxed_joliot
+3e5af93db5bd   nginx     "/docker-entrypoint.…"   37 seconds ago   Up 36 seconds               80/tcp    ecstatic_dirac
