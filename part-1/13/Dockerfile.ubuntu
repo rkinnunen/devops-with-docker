@@ -3,26 +3,23 @@ FROM ubuntu
 EXPOSE 8080
 
 ENV PORT=8080
+ENV PROJECT=example-backend
+
+WORKDIR /usr/src/app
 
 RUN apt update && apt install -y wget git gcc make && \
     wget https://golang.org/dl/go1.15.10.linux-amd64.tar.gz && \
     rm -rf /usr/local/go && tar -C /usr/local -xzf go1.15.10.linux-amd64.tar.gz && \
     export PATH=$PATH:/usr/local/go/bin && \
-    # source $HOME/.profile && \
     go version && \
-    git init ./material-applications && cd material-applications && \
+    git init && \
     git remote add -f origin https://github.com/docker-hy/material-applications.git && \
-    git config core.sparseCheckouyt true && \
-    echo "/example-backend" >> .git/info/sparse-checkout && \
-    git pull origin main
+    git fetch origin && \
+    git checkout origin/main -- $PROJECT
 
-WORKDIR ./material-applications/example-backend
+WORKDIR ./$PROJECT
 
-# RUN /usr/local/go/bin/go build && \
-#     /usr/local/go/bin/go test ./... && \
-
-RUN /usr/local/go/bin/go build
-
-RUN /usr/local/go/bin/go test ./...
+RUN /usr/local/go/bin/go build && \
+    /usr/local/go/bin/go test ./...
 
 CMD ./server
