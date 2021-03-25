@@ -9,7 +9,7 @@ Both pull the `example-frontend` directory from GitHub, no local clone needed.
 ### Build
 
 ```
-docker build -f Dockerfile . -t example-frontend:ubuntu
+docker build -f Dockerfile.ubuntu . -t example-frontend:ubuntu
 docker build -f Dockerfile.node . -t example-frontend:node
 ```
 
