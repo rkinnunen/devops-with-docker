@@ -1,13 +1,18 @@
 FROM openjdk:8
 EXPOSE 8080
 
-RUN apt update && apt upgrade -y && apt install git -y
-RUN git init ./material-applications && cd material-applications && \
-    git remote add -f origin https://github.com/docker-hy/material-applications.git && \
-    git config core.sparseCheckouyt true && \
-    echo "/spring-example-directory" >> .git/info/sparse-checkout && \
-    git pull origin main
+WORKDIR /usr/src/app
 
-WORKDIR /material-applications/spring-example-project
+ENV PROJECT=spring-example-project
+
+RUN apt update && apt install git -y
+
+RUN git init && \
+    git remote add -f origin https://github.com/docker-hy/material-applications.git && \
+    git fetch origin && \
+    git checkout origin/main -- $PROJECT
+
+WORKDIR ./$PROJECT
+
 RUN ./mvnw package
 CMD java -jar ./target/docker-example-1.1.3.jar

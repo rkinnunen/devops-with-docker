@@ -1,8 +1,6 @@
 # 1-12
 
-The `Dockerfile`is based on Ubuntu and is more based on the instructions given. `Dockerfile.node` does the same thing, with the image directly based on Node LTS.
-
-Both pull the `example-frontend` directory from GitHub, no local clone needed.
+Both `Dockerfile`s pull the `example-frontend` directory from GitHub, no local clone needed.
 
 ## Usage
 
