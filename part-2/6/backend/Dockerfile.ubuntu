@@ -1,0 +1,26 @@
+FROM ubuntu
+
+EXPOSE 8080
+
+ENV PORT=8080
+ENV PROJECT=example-backend
+ENV REQUEST_ORIGIN=http://localhost:5000
+
+WORKDIR /usr/src/app
+
+RUN apt update && apt install -y wget git gcc make && \
+    wget https://golang.org/dl/go1.15.10.linux-amd64.tar.gz && \
+    rm -rf /usr/local/go && tar -C /usr/local -xzf go1.15.10.linux-amd64.tar.gz && \
+    export PATH=$PATH:/usr/local/go/bin && \
+    go version && \
+    git init && \
+    git remote add -f origin https://github.com/docker-hy/material-applications.git && \
+    git fetch origin && \
+    git checkout origin/main -- $PROJECT
+
+WORKDIR ./$PROJECT
+
+RUN /usr/local/go/bin/go build && \
+    /usr/local/go/bin/go test ./...
+
+CMD ./server
