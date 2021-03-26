@@ -1,0 +1,42 @@
+version: "3.5"
+
+services:
+  nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=thisshouldbeindotenv
+      - POSTGRES_USER=thistoo
+      - POSTGRES_DB=db
+
+  redis:
+    image: redis
+
+  frontend:
+    image: example-frontend:ubuntu
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile.ubuntu
+    ports:
+      - 5000:5000
+
+  backend:
+    image: example-backend:ubuntu
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile.ubuntu
+    ports:
+      - 8080:8080
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=thisshouldbeindotenv
+      - POSTGRES_USER=thistoo
+      - POSTGRES_DATABASE=db
+      - REDIS_HOST=redis
