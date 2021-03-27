@@ -1,0 +1,54 @@
+version: "3.5"
+
+services:
+  nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - frontend
+      - backend
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=thisshouldbeindotenv
+      - POSTGRES_USER=thistoo
+      - POSTGRES_DB=db
+    restart: unless-stopped
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+
+  frontend:
+    image: example-frontend:ubuntu
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile.ubuntu
+    ports:
+      - 5000:5000
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost
+
+  backend:
+    image: example-backend:ubuntu
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile.ubuntu
+    ports:
+      - 8080:8080
+    environment:
+      - PORT=8080
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=thisshouldbeindotenv
+      - POSTGRES_USER=thistoo
+      - POSTGRES_DATABASE=db
+      # - REDIS_HOST=redis
+      - REQUEST_ORIGIN=http://localhost
+    depends_on:
+      - postgres
