@@ -48,7 +48,7 @@ services:
       - POSTGRES_PASSWORD=thisshouldbeindotenv
       - POSTGRES_USER=thistoo
       - POSTGRES_DATABASE=db
-      # - REDIS_HOST=redis
+      - REDIS_HOST=redis
       - REQUEST_ORIGIN=http://localhost
     depends_on:
       - postgres
